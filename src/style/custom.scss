@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap');
+
+$color-white-smoke: #F5F5F5;
+$color-dark-jungle-green: #1A2421;
+$color-intel-blue: #0071C5;
+$color-background: $color-dark-jungle-green;
+$color-text: $color-white-smoke;
+$color-effect: $color-intel-blue;
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: $color-background;
+  color: $color-text;
+}
