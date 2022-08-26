@@ -1,17 +1,22 @@
 <template>
-  <div class="mimic d-flex">
-    <slot name="start" />
-    <input class="input"
+  <div class="mimic d-flex"
+    v-on:click="focus"
+  >
+    <slot name="start"/>
+
+    <input class="control"
+      ref="input"
       v-bind:readonly="readonly"
       v-bind:value="modelValue"
       v-on:input="onInput"
     />
+
     <slot name="end" />
   </div>
 </template>
 
 <script setup>
-  import { defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits, ref } from 'vue'
 
   defineProps( {
     modelValue: {},
@@ -26,6 +31,10 @@
     const value = event.target.value
     emit( 'update:modelValue', value )
   }
+
+  const input = ref( null )
+
+  const focus = () => input.value.focus()
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +51,7 @@
     }
   }
 
-  .input {
+  .control {
     border: none;
     outline: none;
     background-color: transparent;
