@@ -2,14 +2,17 @@
   <div class="list" tabindex="0"
     v-if="options.length"
     v-on:focus="onFocus"
+    v-on:blur="onBlur"
     v-on:keydown.up="onKeyupUp"
     v-on:keydown.down="onKeyupDown"
+    v-on:keydown.enter="emitUpdate"
   >
     <div class="item d-flex align-items-center"
       v-for="( option, index ) of options"
       v-bind:key="index"
-      v-bind:class="{ active: ( modelValue === option ) }"
-      v-on:click="onSelect( option )"
+      v-bind:class="{ active: ( option === current ) }"
+      v-on:click="emitUpdate"
+      v-on:mouseover="current = option"
     >
       <span>{{ getter( option ) }}</span>
     </div>
@@ -35,22 +38,25 @@
 
   const { modelValue, options } = toRefs( props )
 
-  const onSelect = option => emit( 'update:modelValue', option )
-
+  const current = ref( null )
   const onFocus = () => {
-    if ( modelValue.value ) return
     if ( !( options.value.length ) ) return
-    onSelect( options.value[ 0 ] )
+    if ( modelValue.value ) current.value = modelValue.value
+    else current.value = options.value[ 0 ]
   }
 
+  const onBlur = () => current.value = modelValue.value || null
+
+  const emitUpdate = () => emit( 'update:modelValue', current.value )
+
   const onKeyupUp = () => {
-    const index = options.value.findIndex( option => option === modelValue.value )
-    if ( index > 0 ) onSelect( options.value[ index - 1 ] )
+    const index = options.value.findIndex( option => option === current.value )
+    if ( index > 0 ) current.value = options.value[ index - 1 ]
   }
 
   const onKeyupDown = () => {
-    const index = options.value.findIndex( option => option === modelValue.value )
-    if ( index < ( options.value.length - 1 ) ) onSelect( options.value[ index + 1 ] )
+    const index = options.value.findIndex( option => option === current.value )
+    if ( index < ( options.value.length - 1 ) ) current.value = options.value[ index + 1 ]
   }
 </script>
 
