@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-  import { defineProps, ref, toRefs, computed } from 'vue'
+  import { ref, toRefs, computed } from 'vue'
   import AppInput from './Input'
   import AppList from './List'
 
