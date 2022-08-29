@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-  import { toRefs } from 'vue'
+  import { ref, toRefs } from 'vue'
 
   const props = defineProps( {
     modelValue: {},

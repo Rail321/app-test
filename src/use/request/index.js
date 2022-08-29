@@ -49,6 +49,7 @@ export default requestSource => {
       this.errorGetter = error => error
       const request = this.request
       this.request = async () => {
+        this.error.value = null
         let response
         try {
           response = await request()
@@ -69,6 +70,15 @@ export default requestSource => {
 
     useErrorGetter( getter ) {
       this.errorGetter = getter
+      return this
+    },
+
+    useSoftMode( target ) {
+      this.requestSoft = async () => {
+        if ( this.ready.value ) return
+        const response = await this.request()
+        return response
+      }
       return this
     }
   }
